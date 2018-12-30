@@ -1,0 +1,23 @@
+<ehcache updateCheck="false">
+    <!--
+        磁盘存储:将缓存中暂时不使用的对象,转移到硬盘,类似于Windows系统的虚拟内存
+        path:指定在硬盘上存储对象的路径
+     -->
+    <diskStore path="java.io.tmpdir" />
+    <!--
+        defaultCache:默认的缓存配置信息,如果不加特殊说明,则所有对象按照此配置项处理
+        maxElementsInMemory:设置了缓存的上限,最多存储多少个记录对象
+        eternal:对象是否永久有效，一但设置了，timeout将不起作用。
+        timeToIdleSeconds 当缓存闲置n秒后销毁  。仅当eternal=false对象不是永久有效时使用，可选属性，默认值是0，也就是可闲置时间无穷大。
+        timeToLiveSeconds 当缓存存活n秒后销毁
+        overflowToDisk:是否允许对象被写入到磁盘
+     -->
+    <defaultCache maxElementsInMemory="10000" eternal="false"
+                  timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true" />
+    <!--
+        cache:为指定名称的对象进行缓存的特殊配置
+        name:指定对象的完整名
+     -->
+    <cache name="com.zbaccp.entity.Person" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="true" />
+</ehcache>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+    <!--配置spring自动扫名的包路径-->
+    <context:component-scan base-package="org.lanqiao.ssm.controller"/>
+    <mvc:annotation-driven/>
+    <!--配置处理器适配器-->
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+    <!--配置处理器映射器-->
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--注册文件上传解析器-->
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        &lt;!&ndash; 设定默认编码 &ndash;&gt;
+        <property name="defaultEncoding" value="UTF-8"></property>
+        &lt;!&ndash; 设定文件上传的最大值为5MB，5*1024*1024 &ndash;&gt;
+        &lt;!&ndash;<property name="maxUploadSize" value="5242880"></property>&ndash;&gt;
+        &lt;!&ndash; 设定文件上传的最大值为30MB，30*1024*1024 &ndash;&gt;
+        <property name="maxUploadSize" value="31457280"></property>
+        &lt;!&ndash; 设定文件上传时写入内存的最大值，如果小于这个参数不会生成临时文件，默认为10240 &ndash;&gt;
+        <property name="maxInMemorySize" value="40960"></property>
+        &lt;!&ndash; 延迟文件解析 &ndash;&gt;
+        <property name="resolveLazily" value="true"></property>
+        &lt;!&ndash; 上传文件的临时路径 &ndash;&gt;
+        <property name="uploadTempDir" value="imgs"></property>
+    </bean>-->
+
+
+    <!--拦截器配置-->
+    <!--<mvc:interceptors>
+        &lt;!&ndash;第一个拦截器包裹住第二个拦截器，以此类推。。。&ndash;&gt;
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/login/**"></mvc:exclude-mapping>
+            <bean class="org.lanqiao.controller.LoginHandlerInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
+
+
+    <!--配置本地验证-->
+    <!--<bean id="hibernateValidate" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"></property>
+    </bean>-->
+    <!--开启springmvc的注解驱动 注册转换服务-->
+    <!--<mvc:annotation-driven validator="hibernateValidate" >
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="utf-8"></constructor-arg>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>-->
+</beans>

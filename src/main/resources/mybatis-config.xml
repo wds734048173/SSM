@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--延迟加载的全局开关。当开启时，所有关联对象都会延迟加载。 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"></setting>
+        <setting name="cacheEnabled" value="true"></setting>
+    </settings>
+    <typeAliases>
+        <!--为某一个特定的类来指定别名-->
+        <!--<typeAlias type="org.lanqiao.orm.pojo.Stu"  alias="student"></typeAlias>-->
+        <!--为某一个包指定别名  默认会使用该包下的所有的类的简单名称 并且首字母小写来作为包下的类的别名-->
+        <package name="org.lanqiao.ssm.pojo"></package>
+    </typeAliases>
+     <!--配置分页插件-->
+    <!--<plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            &lt;!&ndash; 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库&ndash;&gt;
+            <property name="dialect" value="mysql"/>
+        </plugin>
+    </plugins>-->
+
+
+    <mappers>
+        <package name="org.lanqiao.ssm.mapper/"></package>
+    </mappers>
+
+</configuration>
