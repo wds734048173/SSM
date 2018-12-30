@@ -1,7 +1,9 @@
 package org.lanqiao.ssm.controller;
 
 import org.lanqiao.ssm.pojo.Condition;
+import org.lanqiao.ssm.pojo.Dept;
 import org.lanqiao.ssm.pojo.Emp;
+import org.lanqiao.ssm.service.IDeptService;
 import org.lanqiao.ssm.service.IEmpService;
 import org.lanqiao.ssm.utils.PageModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,33 +17,28 @@ import java.util.List;
 
 /**
  * @Auther: WDS
- * @Date: 2018/12/29 22:25
+ * @Date: 2018/12/30 22:32
  * @Description:
  */
-
 @Controller
-public class EmpController {
+public class DeptController {
     @Autowired
-    IEmpService empService;
+    IDeptService deptService;
 
-    @RequestMapping("/getEmpById.do")
-    public void getEmpById(){
-        Emp emp = empService.fingEmpById(7369);
-        System.out.println(emp);
+    @RequestMapping("/getDeptById.do")
+    public void getDeptById(){
+        Dept dept = deptService.fingDeptById(10);
+        System.out.println(dept);
     }
 
-    @RequestMapping("/getEmpList.do")
-    public String getEmpList(Model model, HttpServletRequest request,String mark){
+    @RequestMapping("/getDeptList.do")
+    public String getDeptList(Model model, HttpServletRequest request,String mark){
         int pageSize = 5;
         int pageNum = 1;
         if(!StringUtils.isEmpty(request.getParameter("currentPage"))){
             pageNum = Integer.valueOf(request.getParameter("currentPage"));
         }
         Condition condition = Condition.builder().build();
-        Object empno = request.getParameter("searchempno");
-        if(!StringUtils.isEmpty(empno) && Integer.valueOf(empno.toString()) != 0){
-            condition.setEmpno(Integer.valueOf(empno.toString()));
-        }
         Object deptno = request.getParameter("searchdeptno");
         if(!StringUtils.isEmpty(deptno) && Integer.valueOf(deptno.toString()) != 0){
             condition.setDeptno(Integer.valueOf(deptno.toString()));
@@ -51,7 +48,7 @@ public class EmpController {
             condition.setName(ename.toString());
         }
 
-        int totalRecords = empService.getEmpCount(condition);
+        int totalRecords = deptService.getDeptCount(condition);
         PageModel pm = new PageModel(pageNum,totalRecords,pageSize);
         if("add".equals(mark)){
             pageNum = pm.getEndPage();
@@ -69,29 +66,29 @@ public class EmpController {
         condition.setCurrentPage(pageModel.getStartIndex());
 
         System.out.println(condition);
-        List<Emp> empList = empService.findAll(condition);
-        model.addAttribute("empList",empList);
+        List<Dept> deptList = deptService.findAll(condition);
+        model.addAttribute("deptList",deptList);
         model.addAttribute("pm",pageModel);
         model.addAttribute("condition",condition);
         model.addAttribute("currentPage",pageNum);
-        return "empList";
+        return "deptList";
     }
 
-    @RequestMapping("/addEmp.do")
-    public void addEmp(){
-        Emp emp = Emp.builder().empno(1001).ename("wds").job("cxy").build();
-        empService.addEmp(emp);
+    @RequestMapping("/addDept.do")
+    public void addDept(){
+        Dept dept = Dept.builder().deptno(50).dname("wds").loc("cxy").build();
+        deptService.addDept(dept);
     }
 
 
-    @RequestMapping("/removeEmp.do")
-    public void removeEmp(){
-        empService.removeEmp(1001);
+    @RequestMapping("/removeDept.do")
+    public void removeDept(){
+        deptService.removeDept(50);
     }
 
-    @RequestMapping("/modifyEmp.do")
-    public void modifyEmp(){
-        Emp emp = Emp.builder().empno(1001).ename("wds1").job("cxy1").build();
-        empService.modifyEmp(emp);
+    @RequestMapping("/modifyDept.do")
+    public void modifyDept(){
+        Dept dept = Dept.builder().deptno(50).dname("wds1").loc("cxy1").build();
+        deptService.modifyDept(dept);
     }
 }

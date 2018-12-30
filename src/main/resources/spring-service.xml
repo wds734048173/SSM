@@ -2,7 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-<bean id="empService" class="org.lanqiao.ssm.service.impl.EmpService">
+<bean id="empService" class="org.lanqiao.ssm.service.impl.EmpServiceImpl">
     <property name="empMapper" ref="empMapper"/>
 </bean>
+    <bean id="deptServiceImpl" class="org.lanqiao.ssm.service.impl.DeptServiceImpl">
+        <property name="deptMapper" ref="deptMapper"></property>
+    </bean>
+    <!--<bean id="dataMapUtil" class="org.lanqiao.ssm.utils.DataMapUtil">
+        <property name="deptMapper" ref="empMapper"></property>
+        <property name="deptMapper" ref="deptMapper"></property>
+    </bean>-->
 </beans>

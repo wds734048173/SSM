@@ -20,8 +20,10 @@ public class Emp {
     private String ename;
     private String job;
     private int mgr;
+    private String mgrName;
     private Date hiredate;
     private double sal;
     private double comm;
     private int deptno;
+    private String deptName;
 }

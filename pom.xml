@@ -54,11 +54,28 @@
       <version>1.3.2</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
-    <dependency>
+    <!--<dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
       <version>2.11.1</version>
-    </dependency>
+    </dependency>-->
+    <!--解决Spring使用slf4j输出日志与log4j冲突的问题-->
+     <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-log4j12</artifactId>
+         <version>1.6.6</version>
+     </dependency>
+     <!-- log4j的包 -->
+     <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+         <version>1.6.6</version>
+     </dependency>
+     <dependency>
+        <groupId>log4j</groupId>
+         <artifactId>log4j</artifactId>
+         <version>1.2.16</version>
+     </dependency>
     <!-- https://mvnrepository.com/artifact/org.ehcache/ehcache -->
     <dependency>
       <groupId>org.ehcache</groupId>
@@ -118,6 +135,36 @@
       <version>5.1.3.RELEASE</version>
     </dependency>
 
+
+    <!--jsp-->
+    <!-- https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
+    <dependency>
+      <groupId>org.apache.taglibs</groupId>
+      <artifactId>taglibs-standard-impl</artifactId>
+      <version>1.2.5</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-spec -->
+    <dependency>
+      <groupId>org.apache.taglibs</groupId>
+      <artifactId>taglibs-standard-spec</artifactId>
+      <version>1.2.5</version>
+    </dependency>
+
+
+    <!--分页-->
+    <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
+    <dependency>
+      <groupId>com.github.pagehelper</groupId>
+      <artifactId>pagehelper</artifactId>
+      <version>5.1.8</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+    </dependency>
   </dependencies>
 
   <build>

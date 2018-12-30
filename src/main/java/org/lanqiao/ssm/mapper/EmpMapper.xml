@@ -11,4 +11,49 @@
     <select id="getEmpById" parameterType="int" resultType="org.lanqiao.ssm.pojo.Emp">
         select * from  emp where empno = #{empno}
     </select>
+
+    <select id="getAll" resultType="org.lanqiao.ssm.pojo.Emp" parameterType="org.lanqiao.ssm.pojo.Condition">
+        select * from  emp
+        <where>
+            <if test="deptno != null &amp;&amp; deptno != 0">
+                and deptno = #{deptno}
+            </if>
+            <if test="empno != null &amp;&amp; empno != 0">
+                and empno = #{empno}
+            </if>
+            <if test="name != null &amp;&amp; name != ''">
+                and  ename like concat ('%', #{name}, '%')
+            </if>
+        </where>
+        <if test="currentPage != null">
+            limit #{currentPage}, #{pageSize}
+        </if>
+    </select>
+
+    <insert id="insertEmp" parameterType="org.lanqiao.ssm.pojo.Emp">
+        insert into emp (empno,ename,job,mgr,hiredate,sal,comm,deptno) values (#{empno}, #{ename}, #{job}, #{mgr}, #{hiredate}, #{sal}, #{comm},#{deptno})
+    </insert>
+
+    <update id="updateEmp" parameterType="org.lanqiao.ssm.pojo.Emp">
+        update emp set ename = #{ename},job = #{job},mgr = #{mgr},hiredate = #{hiredate},sal = #{sal},comm = #{comm},deptno = #{deptno} where empno = #{empno}
+    </update>
+
+    <delete id="deleteEmp" parameterType="int">
+        delete from emp where empno = #{empno}
+    </delete>
+
+    <select id="getEmpCount" parameterType="org.lanqiao.ssm.pojo.Condition" resultType="int">
+        select count(1) from emp
+        <where>
+            <if test="deptno != null &amp;&amp; deptno != 0">
+                and deptno = #{deptno}
+            </if>
+            <if test="empno != null &amp;&amp; empno != 0">
+                and empno = #{empno}
+            </if>
+            <if test="name != null &amp;&amp; name != ''">
+                and  ename like concat ('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
 </mapper>

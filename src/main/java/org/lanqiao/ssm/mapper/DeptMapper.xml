@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.ssm.mapper.DeptMapper">
+    <select id="getDeptById" parameterType="int" resultType="org.lanqiao.ssm.pojo.Dept">
+        select * from  dept where deptno = #{deptno}
+    </select>
+
+    <select id="getAll" resultType="org.lanqiao.ssm.pojo.Dept" parameterType="org.lanqiao.ssm.pojo.Condition">
+        select * from  dept
+        <where>
+            <if test="deptno != null &amp;&amp; deptno != 0">
+                and deptno = #{deptno}
+            </if>
+            <if test="name != null &amp;&amp; name != ''">
+                and  dname like concat ('%', #{name}, '%')
+            </if>
+        </where>
+        <if test="currentPage != null">
+            limit #{currentPage}, #{pageSize}
+        </if>
+    </select>
+
+    <insert id="insertDept" parameterType="org.lanqiao.ssm.pojo.Dept">
+        insert into dept (deptno,dname,loc) values (#{deptno}, #{dname}, #{loc})
+    </insert>
+
+    <update id="updateDept" parameterType="org.lanqiao.ssm.pojo.Dept">
+        update dept set dname = #{dname},loc = #{loc} where deptno = #{deptno}
+    </update>
+
+    <delete id="deleteDept" parameterType="int">
+        delete from dept where deptno = #{deptno}
+    </delete>
+
+    <select id="getDeptCount" parameterType="org.lanqiao.ssm.pojo.Condition" resultType="int">
+        select count(1) from  dept
+        <where>
+            <if test="deptno != null &amp;&amp; deptno != 0">
+                and deptno = #{deptno}
+            </if>
+            <if test="name != null &amp;&amp; name != ''">
+                and  dname like concat ('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>
