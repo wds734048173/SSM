@@ -52,7 +52,7 @@
     </div>
 </div>
 <div class="modal-body">
-    <a class="btn btn-default" href="#" role="button"  id="addBook" name="addBook">添加图书信息</a>
+    <a class="btn btn-default" href="#" role="button"  id="addEmp" name="addEmp">添加图书信息</a>
 </div>
 <div class="modal-body">
     <table class="table table-hover table-bordered">
@@ -83,14 +83,46 @@
                     <td>${emp.deptno}</td>
                     <%--<td>${emp.deptName}</td>--%>
                     <td>
-                        <a class="btn btn-default updateBook" href="#" role="button"  name="updateBook">修改</a>
-                        <a class="btn btn-default deleteBook" href="#" role="button"  name="deleteBook">删除</a>
+                        <a class="btn btn-default updateEmp" href="#" role="button"  name="updateEmp">修改</a>
+                        <a class="btn btn-default deleteEmp" href="#" role="button"  name="deleteEmp">删除</a>
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
 </div>
+
+<%--新增模态框插件--%>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="addBookTypeModel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">新增分类</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/bookType.do?method=addBookType" id="addForm">
+                    <input hidden id="mark" value="add"/>
+                    <div class="form-group hidden">
+                        <label for="bookTypeId" class="control-label">分类id:</label>
+                        <input type="text" class="form-control" id="bookTypeId" name="bookTypeId">
+                    </div>
+                    <div class="form-group">
+                        <label for="bookTypeName" class="control-label">分类名称:</label>
+                        <input type="text" class="form-control" id="bookTypeName" name="bookTypeName" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="save">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
 <c:if test="${bookList.size() != 0}">
     <center>
         <nav aria-label="Page navigation">

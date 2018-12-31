@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -26,13 +27,14 @@ public class DeptController {
     IDeptService deptService;
 
     @RequestMapping("/getDeptById.do")
-    public void getDeptById(){
-        Dept dept = deptService.fingDeptById(10);
+    public void getDeptById(HttpServletRequest request){
+        Object deptno = request.getParameter("deptno");
+        Dept dept = deptService.fingDeptById(Integer.valueOf(deptno.toString()));
         System.out.println(dept);
     }
 
     @RequestMapping("/getDeptList.do")
-    public String getDeptList(Model model, HttpServletRequest request,String mark){
+    public ModelAndView getDeptList(HttpServletRequest request, String mark){
         int pageSize = 5;
         int pageNum = 1;
         if(!StringUtils.isEmpty(request.getParameter("currentPage"))){
@@ -64,31 +66,45 @@ public class DeptController {
         //分页
         condition.setPageSize(pageSize);
         condition.setCurrentPage(pageModel.getStartIndex());
-
-        System.out.println(condition);
         List<Dept> deptList = deptService.findAll(condition);
-        model.addAttribute("deptList",deptList);
+        /*model.addAttribute("deptList",deptList);
         model.addAttribute("pm",pageModel);
         model.addAttribute("condition",condition);
-        model.addAttribute("currentPage",pageNum);
-        return "deptList";
+        model.addAttribute("currentPage",pageNum);*/
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("deptList");
+        mv.addObject("deptList",deptList);
+        mv.addObject("pm",pageModel);
+        mv.addObject("condition",condition);
+        mv.addObject("currentPage",pageNum);
+        return mv;
     }
 
     @RequestMapping("/addDept.do")
-    public void addDept(){
-        Dept dept = Dept.builder().deptno(50).dname("wds").loc("cxy").build();
+    public void addDept(HttpServletRequest request){
+        Object deptno = request.getParameter("deptno");
+        Object dname = request.getParameter("dname");
+        Object loc = request.getParameter("loc");
+        Dept dept = Dept.builder().deptno(Integer.valueOf(deptno.toString())).dname(dname.toString()).loc(loc.toString()).build();
         deptService.addDept(dept);
+        getDeptList(request,"delete");
     }
 
 
     @RequestMapping("/removeDept.do")
-    public void removeDept(){
-        deptService.removeDept(50);
+    public void removeDept(HttpServletRequest request){
+        Object deptno = request.getParameter("deptno");
+        deptService.removeDept(Integer.valueOf(deptno.toString()));
+        getDeptList(request,"delete");
     }
 
     @RequestMapping("/modifyDept.do")
-    public void modifyDept(){
-        Dept dept = Dept.builder().deptno(50).dname("wds1").loc("cxy1").build();
+    public void modifyDept(HttpServletRequest request){
+        Object deptno = request.getParameter("deptno");
+        Object dname = request.getParameter("dname");
+        Object loc = request.getParameter("loc");
+        Dept dept = Dept.builder().deptno(Integer.valueOf(deptno.toString())).dname(dname.toString()).loc(loc.toString()).build();
         deptService.modifyDept(dept);
+        getDeptList(request,"delete");
     }
 }

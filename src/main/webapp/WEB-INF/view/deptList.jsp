@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
@@ -16,6 +15,75 @@
     <script type="text/javascript" src="/js/jquery.min.js" ></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript">
+        $(function () {
+            //新增
+            $("#addDept").click(function () {
+                $('#addDeptModel').modal({
+                    keyboard: false,
+                    show:true
+                })
+            })
+            //保存
+            $("#save").click(function () {
+                var deptno = $("#deptno").val();
+                var dname = $("#dname").val();
+                var loc = $("#loc").val();
+                var mark = $("#mark").val();
+                /*if(bookTypeName.length > 50){
+                    alert("图书分类名称多于50字，请重新输入");
+                    return;
+                }*/
+                //查询条件
+                var searchename = $("#searchename").val();
+                var searchdeptno = $("#searchdeptno").val();
+                var currentPage = $("#currentPage").val();
+                var url = "";
+                if(mark == "add"){
+                    url = "/addDept.do?currentPage="+currentPage
+                        +"&searchename="+searchename+"&searchdeptno="+searchdeptno+"&deptno="+deptno+"&dname="+dname+"&loc="+loc;
+                }else if(mark == "update"){
+                    url = "/modifyDept.do?currentPage="+currentPage
+                        +"&searchename="+searchename+"&searchdeptno="+searchdeptno+"&deptno="+deptno+"&dname="+dname+"&loc="+loc;
+                }
+                window.location.href = url;
+                $(".modal-backdrop").remove();
+            })
+            //修改
+            $(".updateDept").click(function () {
+                var id = $(this).parent().parent().children("td:eq(0)").text();
+                $("#mark").val("update");
+                $("#gridSystemModalLabel").innerHTML = "修改部门信息";
+                $.ajax({
+                    //通过id获取图书分类信息
+                    url:"/bookType.do?method=getBookTypeById&bookTypeId=" + id,
+                    success:function (data) {
+                        var bookType = eval(data);
+                        $("#bookTypeId").val(bookType.bookTypeId);
+                        $("#bookTypeName").val(bookType.bookTypeName);
+                    }
+                })
+                $('#addDeptModel').modal({
+                    keyboard: false,
+                    show:true
+                })
+            })
+            //删除
+            $(".deleteDept").click(function () {
+                var isDelete = confirm ("确定删除吗？");
+                if(isDelete){
+                    var deptno = $(this).parent().parent().children("td:eq(0)").text();
+                    //查询条件
+                    var searchename = $("#searchename").val();
+                    var searchdeptno = $("#searchdeptno").val();
+                    var currentPage = $("#currentPage").val();
+                    var url = "/removeDept.do?deptno=" + deptno + "&searchename=" + searchename + "&searchdeptno=" + searchdeptno + "&currentPage=" + currentPage;
+                    window.location.href = url;
+                }else{
+                    return;
+                }
+            })
+        })
+
         //查询的手动提交方式
         function search(currentPage) {
             var searchename = $("#searchename").val();
@@ -48,7 +116,7 @@
     </div>
 </div>
 <div class="modal-body">
-    <a class="btn btn-default" href="#" role="button"  id="addBook" name="addBook">添加图书信息</a>
+    <a class="btn btn-default" href="#" role="button"  id="addDept" name="addDept">添加部门信息</a>
 </div>
 <div class="modal-body">
     <table class="table table-hover table-bordered">
@@ -67,14 +135,49 @@
                 <td>${dept.dname}</td>
                 <td>${dept.loc}</td>
                 <td>
-                    <a class="btn btn-default updateBook" href="#" role="button"  name="updateBook">修改</a>
-                    <a class="btn btn-default deleteBook" href="#" role="button"  name="deleteBook">删除</a>
+                    <a class="btn btn-default updateDept" href="#" role="button"  name="updateDept">修改</a>
+                    <a class="btn btn-default deleteDept" href="#" role="button"  name="deleteDept">删除</a>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
+
+<%--新增模态框插件--%>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="addDeptModel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">新增部门信息</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/bookType.do?method=addBookType" id="addForm">
+                    <input id="mark" value="add" hidden>
+                    <div class="form-group">
+                        <label for="deptno" class="control-label">部门编号:</label>
+                        <input type="text" class="form-control" id="deptno" name="deptno" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dname" class="control-label">部门名称:</label>
+                        <input type="text" class="form-control" id="dname" name="dname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loc" class="control-label">部门地址:</label>
+                        <input type="text" class="form-control" id="loc" name="loc" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="save">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 <c:if test="${bookList.size() != 0}">
     <center>
         <nav aria-label="Page navigation">
