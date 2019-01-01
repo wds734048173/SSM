@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -31,7 +32,7 @@ public class EmpController {
     }
 
     @RequestMapping("/getEmpList.do")
-    public String getEmpList(Model model, HttpServletRequest request,String mark){
+    public ModelAndView getEmpList(HttpServletRequest request, String mark){
         int pageSize = 5;
         int pageNum = 1;
         if(!StringUtils.isEmpty(request.getParameter("currentPage"))){
@@ -70,28 +71,33 @@ public class EmpController {
 
         System.out.println(condition);
         List<Emp> empList = empService.findAll(condition);
-        model.addAttribute("empList",empList);
-        model.addAttribute("pm",pageModel);
-        model.addAttribute("condition",condition);
-        model.addAttribute("currentPage",pageNum);
-        return "empList";
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("empList",empList);
+        mv.addObject("pm",pageModel);
+        mv.addObject("condition",condition);
+        mv.addObject("currentPage",pageNum);
+        mv.setViewName("empList");
+        return mv;
     }
 
     @RequestMapping("/addEmp.do")
-    public void addEmp(){
+    public ModelAndView addEmp(HttpServletRequest request){
         Emp emp = Emp.builder().empno(1001).ename("wds").job("cxy").build();
         empService.addEmp(emp);
+        return getEmpList(request,"add");
     }
 
 
     @RequestMapping("/removeEmp.do")
-    public void removeEmp(){
+    public ModelAndView removeEmp(HttpServletRequest request){
         empService.removeEmp(1001);
+        return getEmpList(request,"delete");
     }
 
     @RequestMapping("/modifyEmp.do")
-    public void modifyEmp(){
+    public ModelAndView modifyEmp(HttpServletRequest request){
         Emp emp = Emp.builder().empno(1001).ename("wds1").job("cxy1").build();
         empService.modifyEmp(emp);
+        return getEmpList(request,"update");
     }
 }

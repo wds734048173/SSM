@@ -18,6 +18,10 @@
         $(function () {
             //新增
             $("#addDept").click(function () {
+                $("#mark").val("add");
+                $("#deptno").val("");
+                $("#dname").val("");
+                $("#loc").val("");
                 $('#addDeptModel').modal({
                     keyboard: false,
                     show:true
@@ -50,16 +54,19 @@
             })
             //修改
             $(".updateDept").click(function () {
-                var id = $(this).parent().parent().children("td:eq(0)").text();
+                var deptno = $(this).parent().parent().children("td:eq(0)").text();
                 $("#mark").val("update");
+                //这两处的赋值方法无效，需要修改的时候部门编号不可编辑
                 $("#gridSystemModalLabel").innerHTML = "修改部门信息";
+                $("#deptno").hidden="hidden"
                 $.ajax({
                     //通过id获取图书分类信息
-                    url:"/bookType.do?method=getBookTypeById&bookTypeId=" + id,
+                    url:"/getDeptById.do?deptno=" + deptno,
                     success:function (data) {
-                        var bookType = eval(data);
-                        $("#bookTypeId").val(bookType.bookTypeId);
-                        $("#bookTypeName").val(bookType.bookTypeName);
+                        var dept = eval(data);
+                        $("#deptno").val(dept.deptno);
+                        $("#dname").val(dept.dname);
+                        $("#loc").val(dept.loc);
                     }
                 })
                 $('#addDeptModel').modal({
@@ -153,7 +160,7 @@
                 <h4 class="modal-title" id="gridSystemModalLabel">新增部门信息</h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="/bookType.do?method=addBookType" id="addForm">
+                <form method="post" action="#" id="addForm">
                     <input id="mark" value="add" hidden>
                     <div class="form-group">
                         <label for="deptno" class="control-label">部门编号:</label>

@@ -1,5 +1,6 @@
 package org.lanqiao.ssm.controller;
 
+import com.alibaba.fastjson.JSON;
 import org.lanqiao.ssm.pojo.Condition;
 import org.lanqiao.ssm.pojo.Dept;
 import org.lanqiao.ssm.pojo.Emp;
@@ -14,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -27,10 +32,14 @@ public class DeptController {
     IDeptService deptService;
 
     @RequestMapping("/getDeptById.do")
-    public void getDeptById(HttpServletRequest request){
+    public void getDeptById(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/json;charset=utf-8");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
         Object deptno = request.getParameter("deptno");
         Dept dept = deptService.fingDeptById(Integer.valueOf(deptno.toString()));
-        System.out.println(dept);
+        String deptJson = JSON.toJSONString(dept);
+        out.print(deptJson);
     }
 
     @RequestMapping("/getDeptList.do")
@@ -81,30 +90,30 @@ public class DeptController {
     }
 
     @RequestMapping("/addDept.do")
-    public void addDept(HttpServletRequest request){
+    public ModelAndView addDept(HttpServletRequest request){
         Object deptno = request.getParameter("deptno");
         Object dname = request.getParameter("dname");
         Object loc = request.getParameter("loc");
         Dept dept = Dept.builder().deptno(Integer.valueOf(deptno.toString())).dname(dname.toString()).loc(loc.toString()).build();
         deptService.addDept(dept);
-        getDeptList(request,"delete");
+        return getDeptList(request,"delete");
     }
 
 
     @RequestMapping("/removeDept.do")
-    public void removeDept(HttpServletRequest request){
+    public ModelAndView removeDept(HttpServletRequest request){
         Object deptno = request.getParameter("deptno");
         deptService.removeDept(Integer.valueOf(deptno.toString()));
-        getDeptList(request,"delete");
+        return getDeptList(request,"delete");
     }
 
     @RequestMapping("/modifyDept.do")
-    public void modifyDept(HttpServletRequest request){
+    public ModelAndView modifyDept(HttpServletRequest request){
         Object deptno = request.getParameter("deptno");
         Object dname = request.getParameter("dname");
         Object loc = request.getParameter("loc");
         Dept dept = Dept.builder().deptno(Integer.valueOf(deptno.toString())).dname(dname.toString()).loc(loc.toString()).build();
         deptService.modifyDept(dept);
-        getDeptList(request,"delete");
+        return getDeptList(request,"delete");
     }
 }
