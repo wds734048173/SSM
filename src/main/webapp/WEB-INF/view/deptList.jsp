@@ -30,10 +30,10 @@
             //保存
             $("#save").click(function () {
                 var deptno = $("#deptno").val();
-                if(deptno ==null || deptno==""){
+                /*if(deptno ==null || deptno==""){
                     alert("请输入部门编号")
                     return;
-                }
+                }*/
                 var dname = $("#dname").val();
                 if(dname ==null || dname==""){
                     alert("请输入部门名称")
@@ -41,14 +41,10 @@
                 }
                 var loc = $("#loc").val();
                 if(loc ==null || loc==""){
-                    alert("请输入部门loc")
+                    alert("请输入部门地址")
                     return;
                 }
                 var mark = $("#mark").val();
-                /*if(bookTypeName.length > 50){
-                    alert("图书分类名称多于50字，请重新输入");
-                    return;
-                }*/
                 //查询条件
                 var searchename = $("#searchename").val();
                 var searchdeptno = $("#searchdeptno").val();
@@ -56,10 +52,12 @@
                 var url = "";
                 if(mark == "add"){
                     url = "/addDept.do?currentPage="+currentPage
-                        +"&searchename="+searchename+"&searchdeptno="+searchdeptno+"&deptno="+deptno+"&dname="+dname+"&loc="+loc;
+                        +"&searchename="+searchename+"&searchdeptno="+searchdeptno
+                        +"&dname="+dname+"&loc="+loc;
                 }else if(mark == "update"){
                     url = "/modifyDept.do?currentPage="+currentPage
-                        +"&searchename="+searchename+"&searchdeptno="+searchdeptno+"&deptno="+deptno+"&dname="+dname+"&loc="+loc;
+                        +"&searchename="+searchename+"&searchdeptno="+searchdeptno
+                        +"&deptno="+deptno+"&dname="+dname+"&loc="+loc;
                 }
                 window.location.href = url;
                 $(".modal-backdrop").remove();
@@ -95,7 +93,8 @@
                     var searchename = $("#searchename").val();
                     var searchdeptno = $("#searchdeptno").val();
                     var currentPage = $("#currentPage").val();
-                    var url = "/removeDept.do?deptno=" + deptno + "&searchename=" + searchename + "&searchdeptno=" + searchdeptno + "&currentPage=" + currentPage;
+                    var url = "/removeDept.do?deptno=" + deptno
+                        + "&searchename=" + searchename + "&searchdeptno=" + searchdeptno + "&currentPage=" + currentPage;
                     window.location.href = url;
                 }else{
                     return;
@@ -135,8 +134,10 @@
     </div>
 </div>
 <div class="modal-body">
+    <a class="btn btn-default" href="/getEmpList.do" role="button">员工列表</a>
     <a class="btn btn-default" href="#" role="button"  id="addDept" name="addDept">添加部门信息</a>
 </div>
+
 <div class="modal-body">
     <table class="table table-hover table-bordered">
         <thead>
@@ -174,7 +175,7 @@
             <div class="modal-body">
                 <form method="post" action="#" id="addForm">
                     <input id="mark" value="add" hidden>
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label for="deptno" class="control-label">部门编号:</label>
                         <input type="text" class="form-control" id="deptno" name="deptno" required>
                     </div>
@@ -215,7 +216,6 @@
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
-                    <%--实现方法一，但是目前不可以--%>
                 <li onclick="search(${pm.endPage})"><a href="#"><span>尾页</span></a></li>
             </ul>
         </nav>

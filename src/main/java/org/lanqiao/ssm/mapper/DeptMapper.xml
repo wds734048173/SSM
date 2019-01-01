@@ -23,7 +23,7 @@
     </select>
 
     <insert id="insertDept" parameterType="org.lanqiao.ssm.pojo.Dept">
-        insert into dept (deptno,dname,loc) values (#{deptno}, #{dname}, #{loc})
+        insert into dept (dname,loc) values (#{dname}, #{loc})
     </insert>
 
     <update id="updateDept" parameterType="org.lanqiao.ssm.pojo.Dept">

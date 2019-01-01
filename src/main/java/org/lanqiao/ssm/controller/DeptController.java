@@ -3,13 +3,10 @@ package org.lanqiao.ssm.controller;
 import com.alibaba.fastjson.JSON;
 import org.lanqiao.ssm.pojo.Condition;
 import org.lanqiao.ssm.pojo.Dept;
-import org.lanqiao.ssm.pojo.Emp;
 import org.lanqiao.ssm.service.IDeptService;
-import org.lanqiao.ssm.service.IEmpService;
 import org.lanqiao.ssm.utils.PageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -76,10 +72,6 @@ public class DeptController {
         condition.setPageSize(pageSize);
         condition.setCurrentPage(pageModel.getStartIndex());
         List<Dept> deptList = deptService.findAll(condition);
-        /*model.addAttribute("deptList",deptList);
-        model.addAttribute("pm",pageModel);
-        model.addAttribute("condition",condition);
-        model.addAttribute("currentPage",pageNum);*/
         ModelAndView mv = new ModelAndView();
         mv.setViewName("deptList");
         mv.addObject("deptList",deptList);
@@ -91,12 +83,12 @@ public class DeptController {
 
     @RequestMapping("/addDept.do")
     public ModelAndView addDept(HttpServletRequest request){
-        Object deptno = request.getParameter("deptno");
+//        Object deptno = request.getParameter("deptno");
         Object dname = request.getParameter("dname");
         Object loc = request.getParameter("loc");
-        Dept dept = Dept.builder().deptno(Integer.valueOf(deptno.toString())).dname(dname.toString()).loc(loc.toString()).build();
+        Dept dept = Dept.builder().dname(dname.toString()).loc(loc.toString()).build();
         deptService.addDept(dept);
-        return getDeptList(request,"delete");
+        return getDeptList(request,"add");
     }
 
 
@@ -114,6 +106,6 @@ public class DeptController {
         Object loc = request.getParameter("loc");
         Dept dept = Dept.builder().deptno(Integer.valueOf(deptno.toString())).dname(dname.toString()).loc(loc.toString()).build();
         deptService.modifyDept(dept);
-        return getDeptList(request,"delete");
+        return getDeptList(request,"update");
     }
 }
