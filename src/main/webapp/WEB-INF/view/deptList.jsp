@@ -30,8 +30,20 @@
             //保存
             $("#save").click(function () {
                 var deptno = $("#deptno").val();
+                if(deptno ==null || deptno==""){
+                    alert("请输入部门编号")
+                    return;
+                }
                 var dname = $("#dname").val();
+                if(dname ==null || dname==""){
+                    alert("请输入部门名称")
+                    return;
+                }
                 var loc = $("#loc").val();
+                if(loc ==null || loc==""){
+                    alert("请输入部门loc")
+                    return;
+                }
                 var mark = $("#mark").val();
                 /*if(bookTypeName.length > 50){
                     alert("图书分类名称多于50字，请重新输入");
