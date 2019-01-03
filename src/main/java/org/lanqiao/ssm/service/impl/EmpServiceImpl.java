@@ -4,6 +4,7 @@ import org.lanqiao.ssm.mapper.EmpMapper;
 import org.lanqiao.ssm.pojo.Condition;
 import org.lanqiao.ssm.pojo.Emp;
 import org.lanqiao.ssm.service.IEmpService;
+import org.lanqiao.ssm.utils.DataMapUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class EmpServiceImpl implements IEmpService {
     @Override
     public List<Emp> findAll(Condition condition) {
         List<Emp> empList = empMapper.getAll(condition);
-        /*Map<Integer,String> deptMap = DataMapUtil.getDeptMap();
+        Map<Integer,String> deptMap = DataMapUtil.getDeptMap();
         Map<Integer,String> empMap = DataMapUtil.getEmpMap();
         for(Emp emp : empList){
             int  deptno = emp.getDeptno();
@@ -41,7 +42,7 @@ public class EmpServiceImpl implements IEmpService {
             if(empMap.containsKey(mgr)){
                 emp.setMgrName(empMap.get(mgr));
             }
-        }*/
+        }
         return empList;
     }
 

@@ -228,13 +228,13 @@
                     <td>${emp.empno}</td>
                     <td>${emp.ename}</td>
                     <td>${emp.job}</td>
-                    <%--<td>${emp.mgrName}</td>--%>
-                    <td>${emp.mgr}</td>
+                    <td>${emp.mgrName}</td>
+                    <%--<td>${emp.mgr}</td>--%>
                     <td><fmt:formatDate value="${emp.hiredate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
                     <td>${emp.sal}</td>
                     <td>${emp.comm}</td>
-                    <td>${emp.deptno}</td>
-                    <%--<td>${emp.deptName}</td>--%>
+                   <%-- <td>${emp.deptno}</td>--%>
+                    <td>${emp.deptName}</td>
                     <td>
                         <a class="btn btn-default updateEmp" href="#" role="button"  name="updateEmp">修改</a>
                         <a class="btn btn-default deleteEmp" href="#" role="button"  name="deleteEmp">删除</a>
