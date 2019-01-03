@@ -2,14 +2,15 @@ package org.lanqiao.ssm.controller;
 
 import com.alibaba.fastjson.JSON;
 import org.lanqiao.ssm.pojo.Condition;
-import org.lanqiao.ssm.pojo.Dept;
 import org.lanqiao.ssm.pojo.Emp;
 import org.lanqiao.ssm.service.IEmpService;
 import org.lanqiao.ssm.utils.PageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +28,7 @@ import java.util.List;
  */
 
 @Controller
+@SessionAttributes(value = "emp",types = {Emp.class})
 public class EmpController {
     @Autowired
     IEmpService empService;

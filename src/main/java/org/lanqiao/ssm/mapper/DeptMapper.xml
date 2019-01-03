@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.lanqiao.ssm.mapper.DeptMapper">
-    <select id="getDeptById" parameterType="int" resultType="org.lanqiao.ssm.pojo.Dept">
+    <select id="getDeptById" parameterType="int" resultType="dept">
         select * from  dept where deptno = #{deptno}
     </select>
 
-    <select id="getAll" resultType="org.lanqiao.ssm.pojo.Dept" parameterType="org.lanqiao.ssm.pojo.Condition">
+    <select id="getAll" resultType="dept" parameterType="condition">
         select * from  dept
         <where>
             <if test="deptno != null &amp;&amp; deptno != 0">
@@ -22,11 +22,11 @@
         </if>
     </select>
 
-    <insert id="insertDept" parameterType="org.lanqiao.ssm.pojo.Dept">
+    <insert id="insertDept" parameterType="dept">
         insert into dept (dname,loc) values (#{dname}, #{loc})
     </insert>
 
-    <update id="updateDept" parameterType="org.lanqiao.ssm.pojo.Dept">
+    <update id="updateDept" parameterType="dept">
         update dept set dname = #{dname},loc = #{loc} where deptno = #{deptno}
     </update>
 
@@ -34,7 +34,7 @@
         delete from dept where deptno = #{deptno}
     </delete>
 
-    <select id="getDeptCount" parameterType="org.lanqiao.ssm.pojo.Condition" resultType="int">
+    <select id="getDeptCount" parameterType="condition" resultType="int">
         select count(1) from  dept
         <where>
             <if test="deptno != null &amp;&amp; deptno != 0">

@@ -11,39 +11,32 @@
 <html>
 <head>
     <title>员工列表</title>
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.css">
-    <script type="text/javascript" src="/js/jquery.min.js" ></script>
+    <%--<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-datetimepicker.css">
+    <script type="text/javascript" src="/js/jquery.js" ></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-datetimepicker.min.css">
-    <script type="text/javascript" src="/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>--%>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-datetimepicker.css">
+
+    <script type="text/javascript" src="/js/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript" src="/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
     <script type="text/javascript">
-
-        Date.prototype.format = function(format){
-            var o = {
-                "M+" : this.getMonth()+1, //month
-                "d+" : this.getDate(), //day
-                "H+" : this.getHours(), //hour
-                "m+" : this.getMinutes(), //minute
-                "s+" : this.getSeconds(), //second
-                "q+" : Math.floor((this.getMonth()+3)/3), //quarter
-                "S" : this.getMilliseconds() //millisecond
-            }
-
-            if(/(y+)/.test(format)) {
-                format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
-            }
-
-            for(var k in o) {
-                if(new RegExp("("+ k +")").test(format)) {
-                    format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
-                }
-            }
-            return format;
-        }
-
         $(function () {
-            //新增
+            $.fn.datetimepicker.dates['zh-CN'] = {
+                days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+                daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+                daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
+                months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+                monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+                today: "今天",
+                suffix: [],
+                meridiem: ["上午", "下午"]
+            };
+            //新增；。‘/。’‘、】【
             $("#addEmp").click(function () {
                 $("#mark").val("add");
                 $("#empno").val("");
@@ -137,7 +130,7 @@
                         $("#ename").val(emp.ename);
                         $("#job").val(emp.job);
                         $("#mgr").val(emp.mgr);
-                        $("#hiredate").val(<fmt:formatDate value="${emp.hiredate}" pattern="yyyy-MM-dd"></fmt:formatDate>);
+                        $("#hiredate").val(new Date(emp.hiredate).toLocaleDateString().replace(/\//g, '-'))
                         $("#sal").val(emp.sal);
                         $("#comm").val(emp.comm);
                         $("#deptno").val(emp.deptno);
@@ -164,6 +157,15 @@
                     return;
                 }
             })
+
+            //引入时间控件
+            $('.form_datetime').datetimepicker({
+                format: 'yyyy-mm-dd',
+                language:"zh-CN",
+                minView:"month",
+                autoclose:true,
+                todayBtn:true
+            });
         })
         //查询的手动提交方式
         function search(currentPage) {
@@ -178,14 +180,6 @@
             var url = "/getEmpList.do?currentPage="+currentPage+"&searchename="+searchename+"&searchempno="+searchempno+"&searchdeptno="+searchdeptno;
             window.location.href = url;
         }
-
-        $('#hiredate').datetimepicker({
-            format: 'yyyy-mm-dd',
-            language:"zh-CN",
-            minView:"month",
-            autoclose:true,
-            todayBtn:true
-        })
     </script>
 </head>
 <body>
@@ -278,10 +272,24 @@
                         <label for="mgr" class="control-label">员工经理:</label>
                         <input type="text" class="form-control" id="mgr" name="mgr" required>
                     </div>
-                    <div class="form-group">
+                    <%--<div class="form-group">
                         <label for="hiredate" class="control-label">入职日期:</label>
                         <input type="text" class="form-control" id="hiredate" name="hiredate" required>
-                    </div>
+                    </div>--%>
+                    <div class="form-group input-append date form_datetime">
+                        <div>
+                            <label for="hiredate" class="control-label">入职时间:</label>
+                        </div>
+                        <div >
+                            <div class="input-group col-xs-11" style="float:left;">
+                                <input type="text" class="form-control"  id="hiredate" name="hiredate"  value="" readonly>
+                            </div>
+                            <div  class="col-xs-1" >
+                                <span class="add-on glyphicon glyphicon-calendar" style="font-size: x-large"><i class="icon-th"></i></span>
+                            </div>
+                        </div>
+                    </div><br>
+
                     <div class="form-group">
                         <label for="sal" class="control-label">员工工资:</label>
                         <input type="text" class="form-control" id="sal" name="sal" required>

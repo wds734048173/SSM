@@ -8,11 +8,11 @@
            flushInterval="60000"
            size="512"
            readOnly="true"/>-->
-    <select id="getEmpById" parameterType="int" resultType="org.lanqiao.ssm.pojo.Emp">
+    <select id="getEmpById" parameterType="int" resultType="emp">
         select * from  emp where empno = #{empno}
     </select>
 
-    <select id="getAll" resultType="org.lanqiao.ssm.pojo.Emp" parameterType="org.lanqiao.ssm.pojo.Condition">
+    <select id="getAll" resultType="emp" parameterType="condition">
         select * from  emp
         <where>
             <if test="deptno != null &amp;&amp; deptno != 0">
@@ -30,11 +30,11 @@
         </if>
     </select>
 
-    <insert id="insertEmp" parameterType="org.lanqiao.ssm.pojo.Emp">
+    <insert id="insertEmp" parameterType="emp">
         insert into emp (empno,ename,job,mgr,hiredate,sal,comm,deptno) values (#{empno}, #{ename}, #{job}, #{mgr}, #{hiredate}, #{sal}, #{comm},#{deptno})
     </insert>
 
-    <update id="updateEmp" parameterType="org.lanqiao.ssm.pojo.Emp">
+    <update id="updateEmp" parameterType="emp">
         update emp set ename = #{ename},job = #{job},mgr = #{mgr},hiredate = #{hiredate},sal = #{sal},comm = #{comm},deptno = #{deptno} where empno = #{empno}
     </update>
 
@@ -42,7 +42,7 @@
         delete from emp where empno = #{empno}
     </delete>
 
-    <select id="getEmpCount" parameterType="org.lanqiao.ssm.pojo.Condition" resultType="int">
+    <select id="getEmpCount" parameterType="condition" resultType="int">
         select count(1) from emp
         <where>
             <if test="deptno != null &amp;&amp; deptno != 0">
